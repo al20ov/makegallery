@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui;
+      background-color: black;
+      color: white;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      padding: 0;
+      margin: 0;
+    }
+
+    .container a > img {
+      width: 100%;
+    }
+
+    .container {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .content h1 {
+      text-align: center;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    .content img {
+      margin-top: 8px;
+    }
+  </style>
+  <title>{{ .Title }}</title>
+</head>
+<body>
+  <div class="container">
+    <div class="content">
+      <h1>{{ .Title }}</h1>
+      <ul>
+        {{range .Images}}<li>
+          <a href="{{.Src}}">
+            <img src="{{.Src}}" alt="{{.Alt}}">
+          </a>
+        </li>{{end}}
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

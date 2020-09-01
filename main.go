@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"text/template"
@@ -26,13 +28,25 @@ func getStaticImages(path string) (paths []pathsData) {
 	return
 }
 
+var (
+	staticPath     *string = flag.String("s", "static/", "Path to the static assets")
+	layoutTemplate *string = flag.String("t", "template/layout.html", "Path to the html template")
+	outputPath     *string = flag.String("o", "index.html", "Output path")
+	pageTitle      *string = flag.String("title", "Gallery", "Title of the gallery if applicable in the template")
+)
+
 func main() {
-	paths := getStaticImages("./static/")
-	tmpl := template.Must(template.ParseFiles("layout.html"))
-	file, _ := os.Create("./index.html")
+	flag.Parse()
+	paths := getStaticImages(*staticPath)
+	tmpl := template.Must(template.ParseFiles(*layoutTemplate))
+	file, _ := os.Create(*outputPath)
 	data := pageData{
-		Title:  "images",
+		Title:  *pageTitle,
 		Images: paths,
 	}
+	if len(data.Images) == 0 {
+		fmt.Println("Warning: empty gallery")
+	}
 	tmpl.Execute(file, data)
+	fmt.Println("Gallery successfully written to " + *outputPath)
 }
